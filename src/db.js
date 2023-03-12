@@ -1,7 +1,7 @@
 var mysql = require('mysql2');
-const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv').config({path:'src/.env'});
 
+console.log('checking ::',process.env.DB_HOST);
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,//localhost
     user: process.env.DB_USERNAME,
@@ -9,7 +9,6 @@ var connection = mysql.createConnection({
     port:process.env.DB_PORT,
     database: process.env.DB_DATABASE,
     insecureAuth: true,
-    dialect: 'mysql', 
     multipleStatements: true,
     pool: {
         max: 5,

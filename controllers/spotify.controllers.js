@@ -15,10 +15,10 @@ const test = (req, res) => {
       
       console.log('checking rows :::',rows);
       /*If you are creating api then get response in json format*/
-      //res.json(rows);
+      res.json(rows);
   
       /*If you want response as json then comment below line*/
-      //res.render('spotify', { title: 'Spotify', spotify: rows});
+    //   res.render('spotify', { title: 'Spotify', spotify: rows});
     }) 
 }
 

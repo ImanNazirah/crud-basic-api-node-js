@@ -5,8 +5,8 @@ const router = express.Router();
 var db = require('../db');
 //request method
 router.get('',spotifyController.index);
-router.get('/test',spotifyController.test);
-
+router.get('/getAll',spotifyController.getAll);
+router.post('/create',spotifyController.postSpotify);
 
 //export
 module.exports = router

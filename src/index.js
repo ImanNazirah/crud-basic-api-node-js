@@ -23,6 +23,7 @@ app.set("views", __dirname + "/views");
 
 //Use body-parser
 app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(bodyParser.json());
 
 // ===================== List of Route
 app.use('/spotify', spotifyRouter);

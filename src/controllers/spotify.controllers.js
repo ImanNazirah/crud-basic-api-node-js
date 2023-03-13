@@ -6,7 +6,7 @@ const index = (req, res) => {
     res.render("spotify",{nameList:arrNames}); 
 }
 
-const test = (req, res) => {
+const getAll = (req, res) => {
     var query = 'select * from spotify_song';
     db.query(query, function(err, rows, fields) {
           console.log('checking err :::',err);
@@ -17,15 +17,21 @@ const test = (req, res) => {
       /*If you are creating api then get response in json format*/
       res.json(rows);
   
-      /*If you want response as json then comment below line*/
+      /*If you don't want response as json then comment below line*/
     //   res.render('spotify', { title: 'Spotify', spotify: rows});
     }) 
+}
+
+const postSpotify = (req, res) => {
+    res.json({data: req.body}) 
+
 }
 
 
 // Export
 module.exports = {
     index,
-    test
+    getAll,
+    postSpotify
    
 };

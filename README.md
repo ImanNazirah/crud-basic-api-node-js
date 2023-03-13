@@ -70,7 +70,7 @@ INSERT INTO `spotify_song` (`track_name`,`artist_name`,`genre`,`popularity`) VAL
 
 1. Copy .env.example and inject variable in .env
 ```
-cp .env.example .env 
+cp src/.env.example src/.env
 ```
 2. 
 ```

@@ -1,13 +1,13 @@
 import { Database } from "../db";
-
+import { Request, Response } from "express";
 const db = new Database();
 
-export const index = (req:any, res:any) => {
+export const index = (req:Request, res:Response) => {
     let arrNames: String[] = ['Iman', 'Nazirah'];
     res.render("spotify",{nameList:arrNames}); 
 }
 
-export const getAll = (req:any, res:any) => {
+export const getAll = (req:Request, res:Response) => {
 
     var query = 'select * from spotify_song';
     db.connection.query(query, function(err, rows, fields) {
@@ -25,7 +25,7 @@ export const getAll = (req:any, res:any) => {
     }) 
 }
 
-export const postSpotify = (req:any, res:any) => {
+export const postSpotify = (req:Request, res:Response) => {
     res.json({data: req.body}) 
 
 }

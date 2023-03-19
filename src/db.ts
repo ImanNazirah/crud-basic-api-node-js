@@ -13,7 +13,7 @@ export class Database {
       port:environment.DB_PORT
     });
 
-    this.connection.connect(function(err: any) {
+    this.connection.connect(function(err:mysql.QueryError) {
       if (err) {
         return console.error('error: ' + err.message);
       }    

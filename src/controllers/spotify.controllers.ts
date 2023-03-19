@@ -1,14 +1,16 @@
-//Import
-var db = require('../db');
-// Method
-const index = (req, res) => {
-    arrNames = ['Iman', 'Nazirah'];
+import { Database } from "../db";
+
+const db = new Database();
+
+export const index = (req:any, res:any) => {
+    let arrNames: String[] = ['Iman', 'Nazirah'];
     res.render("spotify",{nameList:arrNames}); 
 }
 
-const getAll = (req, res) => {
+export const getAll = (req:any, res:any) => {
+
     var query = 'select * from spotify_song';
-    db.query(query, function(err, rows, fields) {
+    db.connection.query(query, function(err, rows, fields) {
           console.log('checking err :::',err);
   
       if (err) throw err;
@@ -18,20 +20,14 @@ const getAll = (req, res) => {
       res.json(rows);
   
       /*If you don't want response as json then comment below line*/
-    //   res.render('spotify', { title: 'Spotify', spotify: rows});
+        //   res.render('spotify', { title: 'Spotify', spotify: rows});
+
     }) 
 }
 
-const postSpotify = (req, res) => {
+export const postSpotify = (req:any, res:any) => {
     res.json({data: req.body}) 
 
 }
 
 
-// Export
-module.exports = {
-    index,
-    getAll,
-    postSpotify
-   
-};

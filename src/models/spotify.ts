@@ -6,3 +6,12 @@ export interface Spotify {
     popularity: number;
 
 }
+
+export interface SpotifyDTO {
+    id?: number;
+    trackName: string;
+    artistName: string;
+    genre: string;
+    popularity: number;
+
+}

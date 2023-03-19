@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import express from 'express';
-import { index, getAll, postSpotify } from '../controllers/spotify.controllers';
+import { index, getAll, postSpotify, updateSpotify, findById } from '../controllers/spotify.controllers';
 
 export const spotifyRoutes = express.Router();
 
 spotifyRoutes.get('', index);
 spotifyRoutes.get('/getAll', getAll);
 spotifyRoutes.post('/create', postSpotify);
+spotifyRoutes.put('/update', updateSpotify);
+spotifyRoutes.get("/:id", findById);
 
 
 //** */

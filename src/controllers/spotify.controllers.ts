@@ -1,5 +1,8 @@
 import { Database } from "../db";
-import { Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
+import { Spotify } from "src/models/spotify";
+import { ResultSetHeader } from "mysql2";
+import Query from "mysql2/typings/mysql/lib/protocol/sequences/Query";
 const db = new Database();
 
 export const index = (req:Request, res:Response) => {
@@ -9,9 +12,9 @@ export const index = (req:Request, res:Response) => {
 
 export const getAll = (req:Request, res:Response) => {
 
-    var query = 'select * from spotify_song';
+    let query: string = 'select * from spotify_song';
     db.connection.query(query, function(err, rows, fields) {
-          console.log('checking err :::',err);
+    console.log('checking err :::',err);
   
       if (err) throw err;
       
@@ -25,9 +28,33 @@ export const getAll = (req:Request, res:Response) => {
     }) 
 }
 
-export const postSpotify = (req:Request, res:Response) => {
-    res.json({data: req.body}) 
+export const postSpotify:RequestHandler = (req:Request, res:Response, next:NextFunction) => {
+  
+    const trackName = (req.body as { trackName:string } ).trackName; 
+    const artistName = (req.body as { artistName:string } ).artistName;
+    const genre = (req.body as { genre:string } ).genre;
+    const popularity = (req.body as { popularity:number } ).popularity;
+    
+    let body: Spotify={
+        track_name: trackName,
+        artist_name: artistName,
+        genre: genre,
+        popularity: popularity
+    }
 
-}
+    db.connection.query("INSERT INTO spotify_song SET ?", body, (err:Query.QueryError, result:ResultSetHeader) => {
+        
+        if (err) {
+          console.log("error: ", err);
+          return res.status(400).json({message: 'Error'});
+
+        }
+    
+
+        res.status(201).json({message: 'Spotify created successfully',   data: { id: result.insertId, ...body }});
+    });
+};
+
+
 
 

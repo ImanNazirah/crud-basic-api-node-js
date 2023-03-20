@@ -1,7 +1,7 @@
 import { Database } from "../db";
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { Spotify, SpotifyDTO } from "src/models/spotify";
-import { ResultSetHeader } from "mysql2";
+import { FieldPacket, ResultSetHeader } from "mysql2";
 import Query from "mysql2/typings/mysql/lib/protocol/sequences/Query";
 const db = new Database();
 
@@ -10,13 +10,12 @@ export const index = (req:Request, res:Response) => {
     res.render("spotify",{nameList:arrNames}); 
 }
 
-export const getAll = (req:Request, res:Response) => {
+export const getAll:RequestHandler= (req:Request, res:Response) => {
 
     let query: string = 'select * from spotify_song';
-    db.connection.query(query, function(err, rows, fields) {
+    db.connection.query(query, function(err:Query.QueryError, rows:ResultSetHeader, fields:FieldPacket[]) {
         console.log('checking err :::',err);
-    
-            
+      
         if (err) {
             console.log("error: ", err);
             return res.status(400).json({message: 'Error'});
@@ -104,25 +103,66 @@ export const updateSpotify: RequestHandler = (req:Request, res:Response, next:Ne
 
   export const findById = (req:Request, res:Response, next:NextFunction) => {
 
-    let splitUrl:string[] = req.url.split("/");
+ 
+    let id:number = +req.params.id;
 
-    let id:number = Number(splitUrl[0]);
-    
     db.connection.query("SELECT * FROM spotify_song WHERE id = ?",
     [id],
-     (err:Query.QueryError, result) => {
+     (err:Query.QueryError, result:ResultSetHeader) => {
       if (err) {
         console.log("error: ", err);
         return res.status(400).json({message: 'Error'});
 
       }
-  
-      console.log("result: ", result);
 
-      res.status(200).json({message: 'Data'});
+      if(Array.isArray(result) && result.length === 0){
+        return res.status(404).json({message: 'Error: Not Found'});
+
+      }
+  
+      res.status(200).json(result[0]);
 
     });
   };
+
+  export const deleteById = (req:Request, res:Response, next:NextFunction) => {
+
+ 
+    let id:number = +req.params.id;
+
+    db.connection.query("DELETE FROM demo.spotify_song WHERE id = ?",
+    [id],
+     (err:Query.QueryError, result:ResultSetHeader) => {
+      if (err) {
+        console.log("error: ", err);
+        return res.status(400).json({message: 'Error'});
+
+      }
+
+      if (result.affectedRows == 0) {
+        // not found Tutorial with the id
+        return res.status(404).json({message: 'Error: Not Found'});
+
+      }
+
+      res.status(200).json({message: 'Deleted successfully'});
+
+
+    });
+  };
+
+  export const getSpecification:  RequestHandler= (req:Request, res:Response, next:NextFunction) => {
+
+ 
+    let offset = req.query.offset;
+    let limit = req.query.limit;
+
+    console.log("checking offset:: ",offset);
+    console.log("checking limit:: ",limit);
+    res.status(200).json({message: 'Deleted successfully'});
+
+  };
+
 
 
 

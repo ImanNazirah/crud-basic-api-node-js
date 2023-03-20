@@ -86,3 +86,5 @@ INSERT INTO `spotify_song` (`track_name`,`artist_name`,`genre`,`popularity`) VAL
 - https://wanago.io/2018/12/03/typescript-express-tutorial-routing-controllers-middleware/
 - https://amirmustafaofficial.medium.com/node-js-and-express-js-with-typescript-d4ea7e61096
 
+
+pkill -f node
